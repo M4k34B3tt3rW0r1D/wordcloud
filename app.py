@@ -7,8 +7,6 @@ import random
 import string
 import time
 import os
-import shutil
-import PyPDF2
 from PyPDF2 import PdfReader
 import docx2txt
 
