@@ -9,11 +9,16 @@ import time
 import os
 from PyPDF2 import PdfReader
 import docx2txt
+import nltk
+from nltk.corpus import stopwords
 
 # générer une clé secrète aléatoire
 secret_key = os.urandom(24)
 # générer un identifiant d'utilisateur unique (pour le test, sinon utiliser un id / utilisateur)
 user_id = 1
+
+#import stopwords
+nltk.download('stopwords')
 
 app = Flask(__name__)
 
@@ -78,7 +83,8 @@ def upload_file():
             return 'Le fichier doit être au format PDF ou Word (.pdf ou .docx).'
 
         # générer le nuage de mots
-        wordcloud = WordCloud().generate(text)
+        final_stopwords_list = stopwords.words('english') + stopwords.words('french')
+        wordcloud = WordCloud(stopwords=final_stopwords_list).generate(text)
         # enregistrer le nuage de mots dans un fichier image avec un nom de fichier aléatoire
         image_file = generate_random_filename()
         wordcloud.to_file(image_file)
